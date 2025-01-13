@@ -349,11 +349,11 @@ route  add  200.0.0.0   mask  255.255.255.0   10._.1.4
 @@@@@@@@@
 
 config t
-dial-peer voice 69 voip
+dial-peer voice 4169 voip
  service rivanaa out-bound
- destination-pattern _69
- session target ipv4:10._.100.8
- incoming called-number _69
+ destination-pattern 4169
+ session target ipv4:10.41.100.8
+ incoming called-number 4169
  dtmf-relay h245-alphanumeric
  codec g711ulaw
  no vad
@@ -379,10 +379,10 @@ application
   param aa-pilot _69
  service rivanqueue flash:app-b-acd-3.0.0.2.tcl
   param queue-len 15
-  param aa-hunt1 _00
-  param aa-hunt2 _01
-  param aa-hunt3 _77
-  param aa-hunt4 _33
+  param aa-hunt1 4100
+  param aa-hunt2 4101
+  param aa-hunt3 4177
+  param aa-hunt4 4133
   param queue-manager-debugs 1
   param number-of-hunt-grps 4
 *********************************************************************
