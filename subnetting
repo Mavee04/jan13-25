@@ -1,0 +1,87 @@
+convert to bits:
+195 = 8
+13 = 4
+1750 = 11
+855 = 10
+2700 = 12
+2 = 2
+376 = 9
+888 = 10
+8= 4
+212 = 8
+4500 = 13
+81 = 7
+9000 = 14
+55 = 6
+35 = 6
+28 = 5
+
+
+350 = 9 
+39 = 6
+1500 = 11
+2 = 2
+2900 = 12
+
+/13 = 255.248.0.0 = 2nd, 8i
+/18 = 255.255.192.0 = 3rd, 64i
+/10 = 255.192.0.0 =  2nd, 64i
+
+
+
+how to subnet rivan method:
+10.0.0.0/8 = 16,777,214 host : Big, giant com/orgs
+192.168.0.0/24 = 254 hosts: bahay, icafe
+172.16.0.0/16 = 65,534 host : vpnSetup
+
+ex.1 : design/implement accenture.com using 10.0.0.0/8
+with 380 callcenteragents. TLS,QAs,PM
+C.S.I = convertIT,subtractIT, ipasokSaHiwa
+
+convertIT = 380 is bits? = 9bits
+subtractIT: /32 - /9 =/23 --> 3rd, 2i
+ipasok si 2i sa 3rd hiwa:
+accenture.com = 10.0.2.0 /23 +1 - Netword Addres
+1st valid: 10.0.2.1 1st valid IP add
+last IP: 10.0.3.255 last/broadcast IP
+
+
+NOTaccenture.com = 10.0.4.0 /23 -1
+
+*****************************************************
+
+1500 = 11bits
+32-11 = /21 (3rd, 8i)
+sykes.com = 10.0.8.0 /21 network address
+1st valid IP (+1) = 10.0.8.1
+last/broadcast = 10.0.15.255
+notsykes.com = 10.0.16.0
+
+*****************************************************
+
+2500 =12b
+32-12 = /20 (3rd,16i)
+ipasok ang 16 sa 3rd octet
+sykes.com = 10.0.16.0 /20
+1st valid = 10.0.16.1
+last valid = 10.0.31.255
+NOTtelus.com = 10.0.32.0
+
+****************************************************
+
+4800 = 13b
+32-13 = /19 (3rd, 32i)
+concentrix.com = 10.0.32.0/19
+1st valid = 10.0.32.1
+last/broadcast = 10.0.63.255
+NOTconcentrix.com = 10.0.64.0
+
+*****************************************************
+
+212 = 8b
+32-8 = /24 (3rd,1i)
+pcso.com = 10.0.1.0/24
+1st valid = 10.0.1.1
+last = 10.0.2.255
+NOTPcso = 10.0.2.0
+
