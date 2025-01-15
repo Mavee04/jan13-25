@@ -107,9 +107,13 @@ route  add 10.m.0.0 mask 255.255.0.0 10.m.1.4 -p
 
 How to Create Default Route Cisco/PC/EndDevices:
 p1:
+
+how to create default route: LOAD BALANCER
 config T
 ip route 0.0.0.0  0.0.0.0 10.2.1.1 1
 ip route 0.0.0.0  0.0.0.0 10.2.1.2 2
+ip route 192.168.1.130 255.255.255.255 10.2.1.2
+!Longest prefix rule = preferred
 !floating Static Routes
 do sh ip route static
 
@@ -139,8 +143,6 @@ conf t
 		network 10.2.2.1 0.0.0.0
 		network 192.168.1.129 0.0.0.0
 		end
-
-
 D2:
 config t
 router eigrp 100
