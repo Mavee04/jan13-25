@@ -1,9 +1,55 @@
 DNS IPv4: verizon.com.ph
 DNS IPv6: epldt.com.ph
 
+Cybersecurity Job interview questions:
+WHAT IS CIA? 
+ Confidentiality: Data is encrypted : using MD5, DES, AES128, AES256, RSA
+ Integrity: Data is not altered: using hash-like SHA1, SHA2 & SHA256
+ Availability: Data is protected thru back up
+
+Confidentiality Demo:
+@COREBABA
+ conf t
+ username mavee privilege 15 secret pass pass
+ line vty 0 14
+ login local
+ end
+
+Encrypt Cisco traffic using SSH
+@COREBABA
+ conf t
+ip domain-name cisco.com
+crypto key generate rsa
+!--> ? 1024
+ip ssh version 2
+
+Cybersecurity Job interview questions:
 TASK1: Cisco Security Fundamentals.
 cmd
 ping 10.k.1.10
+
+VPNPH
+conf t
+no logging console
+int gi 2
+no shut
+ip add 192.168.102.11 255.255.255.0
+end
+wr
+
+VPNJP
+conf t
+no logging console
+int gi 2
+no shut
+ip add 192.168.102.12 255.255.255.0
+end
+wr
+
+
+--Secure you Network begins at YOU!
+
+
 
 c>nmap -sP 10.k.1.0/24    c>nmap -sP 10.k.100.0/24
 10.m.1.10?                   10.m.100.8
@@ -36,14 +82,31 @@ PROTECT YOUR PEOPLE/IT STAFF VS HARM. USE THE POWER
 OF CISCO ACCESS-LIST TO BLOCK ALL THE PORNSITES INT WORLD.
 FROM ENTERING YOUR NETWORK. 
 step1: give Unlimited internet to EDGE:
-@edge
+
+@VPNPH
 CONFIG T
 no logging console
 Int Gi 2
 no shut
 ip add 192.168.102.11 255.255.255.0
+
+@VPNJP & VPNPH (Para di sipain)
+conf t
+line vty 0 4
+exec-timeout 0 0
+end
+
+@VPNJP
+CONFIG T
+no logging console
+Int Gi 2
+no shut
+ip add 192.168.102.12 255.255.255.0
+
 @telnet use secureCRT: telnet 192.168.108.5
 in SEcureCRT, Paste This:
+
+Paste this in @VPNPH
 config t
 IP ROUTE 0.0.0.0  0.0.0.0 208.8.8.2
 ip name-server 8.8.8.8 1.1.1.1
@@ -54,9 +117,47 @@ ip add 208.8.8.11 255.255.255.0
 int gi 3
 no shut
 ip add 192.168.103.11 255.255.255.0
+end
+sh ip int brief
 
+@VPNJP:
+config t
+IP ROUTE 0.0.0.0  0.0.0.0 208.8.8.2
+ip name-server 8.8.8.8 1.1.1.1
+ip domain-lookup
+int gi 1
+no shut
+ip add 208.8.8.12 255.255.255.0
+int gi 2
+no shut
+ip add 192.168.102.12 255.255.255.0
+int gi 3
+no shut
+ip add 192.168.103.12 255.255.255.0
+end
+sh ip int brief
 
-ALL THE PORN SITES THE WORLD ARE OWNED BY 5 COMPANIES:
+Paste this in @VPNJP
+config t
+IP ROUTE 0.0.0.0  0.0.0.0 208.8.8.2
+ip name-server 8.8.8.8 1.1.1.1
+ip domain-lookup
+int gi 2
+no shut
+ip add 208.8.8.12 255.255.255.0
+int gi 3
+no shut
+ip add 192.168.103.12 255.255.255.0
+end
+sh ip int brief
+
+@@gives you internet, allows PING
+config t
+IP ROUTE 0.0.0.0  0.0.0.0 208.8.8.2
+ip name-server 8.8.8.8 1.1.1.1
+ip domain-lookup
+
+ALL THE PORN SITES THE WORLD ARE OWNED BY 5 COMPANIES: (BLOCK THEM)
 
 config t
 NO ip access-list standard NOPORNFAP
@@ -100,23 +201,31 @@ end
 
 Task1.2: block admu.edu.ph, dlsu.edu.ph, ccp.edu.ph, ue.edu.ph
 
-ping www.dlsu.edu.ph 172.67.14.0   104.22.36.0
+ping www.dlsu.edu.ph 172.67.14.0   104.22.0.0
 ping www.ccp.edu.ph 50.6.160.0     
 ping www.feu.edu.ph 184.168.125.0  
 ping  www.ue.edu.ph 155.137.92.0  
-ping  www.yourschool.edu.ph = _________
+ping  www.informatics.edu.ph = 162.241.217.0
 config t
 NO ip access-list standard NOISKUL
 ip access-list standard NOISKUL
-DENY   __.__.__.__   0.0.255.255
-DENY   __.__.__.__   0.0.255.255
-DENY   __.__.__.__   0.0.255.255
-DENY   __.__.__.__   0.0.255.255
-DENY   __.__.__.__   0.0.255.255
+DENY   104.22.37.0  0.0.255.255
+DENY   50.6.160.0  0.0.255.255
+DENY   184.168.125.0 0.0.255.255
+DENY   155.137.92.0 0.0.255.255
+DENY   162.241.217.48 0.0.255.255
 Permit Any
 Int Gi 1
- ip access-group NOISKUL in
+  No ip access-group NOISKUL in
 end
+
+to unblock sites: type "NO"
+conf t
+Int Gi 1
+  No ip access-group NOISKUL in
+end
+
+
 YOUR COMPANY IS HAS VERY LOW INTERNET SPEED, BEC OF TORRENTS:
 www.thepiratebay.org
 www.limetorrents.com
@@ -128,15 +237,20 @@ www.iptorrents.com
 config t
 NO ip access-list standard NOTORS
 ip access-list standard NOTORS
-DENY   __.__.__.__   0.0.255.255
-DENY   __.__.__.__   0.0.255.255
-DENY   __.__.__.__   0.0.255.255
-DENY   __.__.__.__   0.0.255.255
-DENY   __.__.__.__   0.0.255.255
+DENY   104.21.0.0   0.0.255.255
+DENY   172.67.0.0   0.0.255.255
+DENY   13.248.0.0   0.0.255.255
 Permit Any
 Int Gi 1
  ip access-group NOTORS in
 end
+
+to unblock sites: type "NO"
+conf t
+Int Gi 1
+  No ip access-group NOTORS in
+end
+
 
 TASK2: USE STANDARD ACCESS-LIST TO BLOCK OTHER CONTRIES/CLASSMATE:
 config t
@@ -153,6 +267,13 @@ Permit Any
 Int Gi 0/0/1
  ip access-group NOCLASSMATE1 in
  end
+
+
+to unblock sites: type "NO"
+conf t
+Int Gi 1
+  No ip access-group NOISKUL in
+end
 
 TASK3: When you become a Security Analyst:
 Learn to Block the IPaddress from 3 "BAD" countries:
@@ -267,15 +388,15 @@ ip http secure-server
 !Make Ping EASY
 ip host www.web310.com 192.168.103.10
 ip host www.web311.com 192.168.103.11
-ip host pc 10.m.1.10
-ip host cm 10.m.100.8
-ip host cm2 10.m.100.9
-ip host p1 10.m.100.101
-ip host p2 10.m.100.102
-ip host c6 10.m.50.6
-ip host c8 10.m.50.8
-ip host sw 10.m.1.4
-ip host ed 10.m.m.1
+ip host pc 10.41.1.10
+ip host cm 10.41.100.8
+ip host cm2 10.41.100.9
+ip host p1 10.41.100.101
+ip host p2 10.41.100.102
+ip host c6 10.41.50.6
+ip host c8 10.41.50.8
+ip host sw 10.41.1.4
+ip host ed 10.41.41.1
 
 TASK7: Enter the World of BlueTeam: Protect vs Redteam: Attack, 
 BlueTeam: UTM: unified Threat management:
