@@ -174,6 +174,7 @@ Int Gi 1
  ip access-group NOPORNFAP in
 end
 Goberno: allow all Porn, for freedom of expression!
+@@REMOVE BLOCK:
 config t
 Int gi 1
  NO ip access-group NOPORNFAP in
@@ -420,7 +421,7 @@ tcp,udp,icmp,IP     Any      web310/11
 Config t
 service timestamps log datetime
 service timestamps debug datetime
-logging 10.m.1.10
+logging 10.41.1.10
 logging trap 5
 NO IP access-list Extended FWP1
 IP access-list Extended FWP1
@@ -445,34 +446,51 @@ www.web310.com open only ssh,dns, http
 www.web311.com open only telnet, ssh, https, ping/icmp => 7lines
   GOLDEN  FIREWALL FORMULA:  paloalto,fortinet,cisco,checkpoint.
    protocol         hacker    victim       port
+
+data = tcp
+voip - udp
+ping = icmp
+all traffic = ip
+
 config t
 NO IP access-list Extended FWP2
 IP access-list Extended FWP2
- Permit tcp Any host www.web310.com eq __ log
- Permit tcp Any host www.web310.com eq __ log
- Permit tcp Any host www.web310.com eq __ log
- Permit tcp Any host www.web311.com eq __ log
- Permit tcp Any host www.web311.com eq __ log
- Permit tcp Any host www.web311.com eq __ log 
- Permit ___  Any host www.web311.com log
+ Permit tcp Any host www.web310.com eq 22 log
+ Permit tcp Any host www.web310.com eq 53 log
+ Permit tcp Any host www.web310.com eq 80 log
+ Permit tcp Any host www.web311.com eq 23 log
+ Permit tcp Any host www.web311.com eq 22 log
+ Permit tcp Any host www.web311.com eq 443 log 
+ Permit icmp Any host www.web311.com log
  Int Gi 3
   ip access-group FWP2 in
+
 REMOVE FIREWALL:
 CONfig t
  Int Gi 3
-  ip access-group FWP2 in
+  No ip access-group FWP2 in
 end
 
 ex.3: you are the admin for SUPERPRANING pogo sites:
-www.web310.com open only 443
-www.web311.com open only ping
+www.web310.com open only https, domain
+www.web311.com open only ping, 
 config t
 NO IP access-list Extended PRANING3
 IP access-list Extended PRANING3
- Permit tcp Any host www.web310.com eq __ log
- Permit ___  Any host www.web311.com log
+ Permit tcp Any host www.web310.com eq 443 log
+ Permit tcp Any host www.web310.com eq 53 log
+ Permit icmp Any host www.web311.com eq log
+ Permit tcp Any host www.web311.com eq 22log
 Int Gi 3
   ip access-group PRANING3 in
+end
+
+Remove:
+CONfig t
+Int Gi 3
+  ip access-group PRANING3 in
+end
+
 
 CYBERSECURITY TASK7: PROTECTING YOUR CORPORATE WEB APPS.
 EX.1 CREATE A FIREWALL POLICY NAMED Policy1 TO OPEN
@@ -490,9 +508,16 @@ Interface Gi 3
  ip access-group Policy1 in
  do sh ip access-list Policy1
 
-EX.2 CREATE A FIREWALL POLICY NAMED PROWEBAPP2 TO OPEN
-WWW.WEB8.COM HAS HTTPS,PING AS OPEN
-WWW.WEB9.COM HAS HTTPS,PING OPEN
+remove:
+CONfig t
+Int Gi 3
+  ip access-group Policy1 in
+end
+
+
+EX.2 CREATE A FIREWALL POLICY NAMED PROWEBAPP2 TO ALLOW: like CIA.gov
+WWW.WEB310.COM HAS HTTPS,HTTP, PING AS OPEN
+WWW.WEB311.COM HAS HTTPS,PING OPEN
 formula:       PROTOCOL      HACKER      VICTIM       PORT:
        tcp, udp, icmp, IP    any       web8,web9
 Ports: 
@@ -515,9 +540,16 @@ Interface Gi 3
  ip access-group PROWEBAPP2 in
  do sh ip access-list PROWEBAPP1
 
+remove:
+CONfig t
+Int Gi 3
+   NO ip access-group PROWEBAPP1 in
+end
+
+
 EX.4 CREATE A FIREWALL POLICY NAMED ProtectWEB1 TO OPEN
-WWW.WEB8.COM HAS dns, https,telnet open
-WWW.WEB9.COM HAS ssh, http, ping/icmp. open
+WWW.WEB310.COM HAS dns, https,telnet open
+WWW.WEB311.COM HAS ssh, http, ping/icmp. open
 config t
 no ip access-list extended ProtectWEB1
 ip access-list extended ProtectWEB1
@@ -589,13 +621,23 @@ ntp server 216.239.35.8
 end
 show ntp associations
 GIVE IP ADDRESS TO LINUX BLDGONE AND BLDGTWO:
-sudo su
-bldg1:
-ifconfig eth0 192.168.103.11 netmask 255.255.255.0 up
-route add default gw 192.168.103.8
+
 bldg2:
-ifconfig eth0 192.168.103.12 netmask 255.255.255.0 up
-route add default gw 192.168.103.8
+
+sudo su
+ifconfig eth0 192.168.103.22 netmask 255.255.255.0 up
+route add default gw 192.168.103.11
+
+bldg3:
+
+sudo su
+ifconfig eth0 192.168.103.23 netmask 255.255.255.0 up
+route add default gw 192.168.103.11
+
+sudo su
+ifconfig eth0 192.168.103.24 netmask 255.255.255.0 up
+route add default gw 192.168.103.11
+
 ping 8.8.8.8   1.1.1.1  4.2.2.2  8.8.4.4
 
 TASK9: NAT: NETWORK ADDRESS TRANSLATION SERVICE:
@@ -628,11 +670,13 @@ ip nat INSIDE
 int gi 3
 ip nat INSIDE
 no access-list 8
-access-list 8 permit 10.10.10.0 0.0.0.255
+access-list 8 permit 192.168.102.0 0.0.0.255
 access-list 8 permit 192.168.103.0 0.0.0.255
 ip nat inside source list 8 interface Gi 1 overload
-ip nat inside source static 10.10.10.100 208.8.8.69
-ip nat inside source static 192.168.103.100 208.8.8.88
+ip nat inside source static 192.168.103.22 208.8.8.69
+ip nat inside source static 192.168.103.23 208.8.8.88
+ip nat inside source static 192.168.103.24 208.8.8.101
+ip nat inside source static 192.168.103.25 208.8.8.233
 end
 FW-VPN-PH#show ip nat translations 
 Pro  Inside global         Inside local          Outside local         Outside global
