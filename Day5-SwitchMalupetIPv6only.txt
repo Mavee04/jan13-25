@@ -249,6 +249,7 @@ TASK5: HOW TO SPOT A VERY HEALTHY SWITCH?
 super healthy: "all flashing green."
 amber/orange: needs help. - you are protected
 
+PAANO MAGNAKAW LEGALLY:
 create vlans,
 transfer ports to vlans
 delete the vlan
@@ -269,11 +270,12 @@ config t
 NO spanning-tree vlan 1-999
 end
 AYUSIN ULET IS @taas: AT @baba
+
 config t
 spanning-tree vlan 1-999
 end
 
-TASK7: HOW TO BECOME A WORLD-CLASS NETWORK ENGINEER
+TASK7: HOW TO BECOME A WORLD-CLASS NETWORK ENGINEER/ 3 YRS EXP
 SPECIALIZING IN SWITCH:
 Master the 4 super Hereos of Switching
 Qpid: 802.1Q:trunking
@@ -359,14 +361,14 @@ Int Range fa0/1-8
   spanning-tree Portfast
 end
 
-802.1WDoes NOT forgive Mistakes/KIll it.
+802.1W Does NOT forgive Mistakes/KIll it.
 #sh int status err-disabled 
 TAAS: bounce/UP/down, bring BACK TO LIFE.
 config t
-int fa 0/3
+int fa 0/1
  shut
  no shut
-int fa 0/7
+int fa 0/5
  shut
  no shut
 end
